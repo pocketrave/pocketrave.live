@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${orbitron.variable} antialiased bg-neutral-950 text-white`}>
         <Navigation />
-        <main className="pt-20">
+        <main className="pt-16 md:pt-20">
           {children}
         </main>
       </body>
