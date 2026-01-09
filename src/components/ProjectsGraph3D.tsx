@@ -93,12 +93,12 @@ export default function ProjectsGraph3D({
   useEffect(() => {
     let destroyed = false;
 
-    const init = async () => {
+      const init = async () => {
       if (!containerRef.current) return;
       const ForceGraph3D = (await import('3d-force-graph')).default;
       if (destroyed) return;
 
-      const fg = ForceGraph3D()(containerRef.current);
+      const fg = new ForceGraph3D(containerRef.current);
       fgRef.current = fg;
 
       fg
@@ -174,9 +174,9 @@ export default function ProjectsGraph3D({
       try {
         const controls = fg.controls?.();
         if (controls) {
-          controls.enableZoom = true;
-          controls.enablePan = true;
-          controls.enableRotate = true;
+          (controls as any).enableZoom = true;
+          (controls as any).enablePan = true;
+          (controls as any).enableRotate = true;
         }
       } catch {
         // ignore if controls API changes

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 type TextSeg = { type: 'text'; text: string };
 type LinkSeg = {
@@ -90,7 +90,7 @@ export default function TypewriterSegments({
 
   // Build partially-typed render
   let remaining = n;
-  const out: Array<JSX.Element> = [];
+  const out: Array<React.ReactElement> = [];
   normalized.forEach((seg, idx) => {
     const take = Math.max(0, Math.min(seg.text.length, remaining));
     remaining -= take;
