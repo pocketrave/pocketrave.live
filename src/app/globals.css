@@ -5,6 +5,14 @@
   --foreground: #171717;
 }
 
+/* SVG filter for creating borders on clip-path shapes */
+.cyberpunk-border-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -23,9 +31,258 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-orbitron), Arial, Helvetica, sans-serif;
 }
 
 .font-orbitron {
   font-family: var(--font-orbitron), sans-serif;
+}
+
+/* Hide scrollbars but keep scrolling (cross-browser) */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE/Edge Legacy */
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Typewriter UI bits */
+.typewriter-caret {
+  display: inline-block;
+  margin-left: 0.1em;
+  opacity: 1;
+  animation: typewriterCaretBlink 1s steps(2, end) infinite;
+}
+
+.typewriter-dots {
+  display: inline-block;
+  margin-left: 0.15em;
+  animation: typewriterDotsBlink 1s steps(2, end) infinite;
+}
+
+@keyframes typewriterCaretBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes typewriterDotsBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Cyberpunk "capsule" cut-corner + notch shape (scaled for list items) */
+.cyberpunk-capsule {
+  /* tweak these to fit different card sizes */
+  --cp-border-width: 1px;
+  --cp-border-color: rgba(255, 255, 255, 0.1);
+  --border-cut: clamp(12px, 1.1vw, 18px);
+  --cp-center-offset: clamp(10px, 1vw, 18px);   /* how far from center the top notch begins */
+  --cp-center-gap: clamp(20px, 2.2vw, 38px);    /* width of the top notch plateau */
+  --cp-side-notch-offset: clamp(5px, 0.8vw, 10px); /* vertical offset from true middle */
+  --cp-side-notch-size: clamp(14px, 1.2vw, 20px);  /* height of the side notch */
+
+  --cyberpunk-shape: polygon(
+    /* top edge with center notch */
+    0 var(--border-cut),
+    var(--border-cut) 0,
+    calc(50% - var(--border-cut) - var(--cp-center-offset)) 0%,
+    calc(calc(50% - var(--border-cut) - var(--cp-center-offset)) + var(--border-cut)) var(--border-cut),
+    calc(calc(50% - var(--border-cut) - var(--cp-center-offset)) + var(--border-cut) + var(--cp-center-gap)) var(--border-cut),
+    calc(calc(50% - var(--border-cut) - var(--cp-center-offset)) + var(--border-cut) + var(--cp-center-gap) + var(--border-cut)) 0,
+    calc(100% - var(--border-cut)) 0,
+    100% var(--border-cut),
+
+    /* right side notch around the vertical middle */
+    100% calc(50% - var(--border-cut) - var(--cp-side-notch-offset)),
+    calc(100% - var(--border-cut)) calc(50% - var(--border-cut) - var(--cp-side-notch-offset) + var(--border-cut)),
+    calc(100% - var(--border-cut)) calc(50% - var(--border-cut) - var(--cp-side-notch-offset) + var(--border-cut) + var(--cp-side-notch-size)),
+    100% calc(50% - var(--border-cut) - var(--cp-side-notch-offset) + var(--border-cut) + var(--cp-side-notch-size) + var(--border-cut)),
+
+    /* bottom edge with mirrored center notch */
+    100% calc(100% - var(--border-cut)),
+    calc(100% - var(--border-cut)) 100%,
+    calc(calc(50% - var(--border-cut) - var(--cp-center-offset)) + var(--border-cut) + var(--cp-center-gap) + var(--border-cut)) 100%,
+    calc(calc(50% - var(--border-cut) - var(--cp-center-offset)) + var(--border-cut) + var(--cp-center-gap)) calc(100% - var(--border-cut)),
+    calc(calc(50% - var(--border-cut) - var(--cp-center-offset)) + var(--border-cut)) calc(100% - var(--border-cut)),
+    calc(calc(50% - var(--border-cut) - var(--cp-center-offset))) 100%,
+    var(--border-cut) 100%,
+    0 calc(100% - var(--border-cut)),
+
+    /* left side notch around the vertical middle (mirrored) */
+    0 calc(calc(50% - var(--border-cut) - var(--cp-side-notch-offset)) + var(--border-cut) + var(--cp-side-notch-size) + var(--border-cut)),
+    var(--border-cut) calc(calc(50% - var(--border-cut) - var(--cp-side-notch-offset)) + var(--border-cut) + var(--cp-side-notch-size)),
+    var(--border-cut) calc(calc(50% - var(--border-cut) - var(--cp-side-notch-offset)) + var(--border-cut)),
+    0 calc(calc(50% - var(--border-cut) - var(--cp-side-notch-offset)))
+  );
+
+  position: relative;
+  -webkit-clip-path: var(--cyberpunk-shape);
+  clip-path: var(--cyberpunk-shape);
+  isolation: isolate;
+}
+
+.cyberpunk-capsule > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Selection frame with only corner cuts (no notches) */
+.cyberpunk-selection-frame {
+  --border-cut: clamp(12px, 1.1vw, 18px);
+  
+  --cyberpunk-corners-only: polygon(
+    /* Match item corner points exactly */
+    0 var(--border-cut),
+    var(--border-cut) 0,
+    calc(100% - var(--border-cut)) 0,
+    100% var(--border-cut),
+    100% calc(100% - var(--border-cut)),
+    calc(100% - var(--border-cut)) 100%,
+    var(--border-cut) 100%,
+    0 calc(100% - var(--border-cut))
+  );
+
+  -webkit-clip-path: var(--cyberpunk-corners-only);
+  clip-path: var(--cyberpunk-corners-only);
+}
+
+/* Cyberpunk glowing textures */
+.cyberpunk-texture {
+  background:
+    radial-gradient(1200px 800px at 20% 12%, rgba(0, 255, 229, 0.18), rgba(0, 0, 0, 0) 60%),
+    radial-gradient(900px 700px at 78% 22%, rgba(255, 43, 214, 0.16), rgba(0, 0, 0, 0) 62%),
+    radial-gradient(900px 700px at 55% 85%, rgba(124, 58, 237, 0.12), rgba(0, 0, 0, 0) 60%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.92));
+  background-size: 160% 160%, 190% 190%, 180% 180%, 100% 100%;
+  animation: cyberpunkTextureDrift 9s ease-in-out infinite;
+  will-change: background-position, filter, opacity, transform;
+}
+
+.cyberpunk-scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.015) 1px,
+    rgba(0, 0, 0, 0) 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.28;
+  animation: cyberpunkScanlines 3.2s linear infinite;
+  will-change: background-position, opacity;
+}
+
+.cyberpunk-noise {
+  /* tiny inline SVG noise (small & safe) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  opacity: 0.11;
+  mix-blend-mode: soft-light;
+  background-size: 220px 220px;
+  animation: cyberpunkNoise 1.2s steps(2, end) infinite;
+  will-change: background-position, opacity, transform;
+}
+
+/* Film grain overlay (Red Stapler-style) */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60; /* above textures + content, below nav (nav is z-50) -> set 40? We'll set 40 to keep nav crisp */
+}
+.film-grain {
+  z-index: 40;
+}
+.film-grain::after {
+  content: "";
+  position: absolute;
+  width: 200vw;
+  height: 200vh;
+  left: -50%;
+  top: -50%;
+  /* reuse our lightweight noise tile (no huge base64 png) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  mix-blend-mode: overlay;
+  opacity: 0.22;
+  animation: filmGrain 1.3s steps(6) infinite;
+  will-change: transform;
+}
+
+@keyframes filmGrain {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  10% { transform: translate3d(-5%, -10%, 0); }
+  30% { transform: translate3d(3%, -15%, 0); }
+  50% { transform: translate3d(12%, 9%, 0); }
+  70% { transform: translate3d(9%, 4%, 0); }
+  90% { transform: translate3d(-1%, 7%, 0); }
+}
+
+@keyframes cyberpunkTextureDrift {
+  0% {
+    background-position: 0% 0%, 100% 0%, 30% 100%, 0% 0%;
+    filter: hue-rotate(0deg) saturate(1.15) brightness(1.02);
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    background-position: 35% 18%, 72% 10%, 70% 58%, 0% 0%;
+    filter: hue-rotate(22deg) saturate(1.35) brightness(1.10);
+    opacity: 0.98;
+    transform: translate3d(0.6%, -0.4%, 0) scale(1.01);
+  }
+  66% {
+    background-position: 10% 38%, 88% 26%, 45% 92%, 0% 0%;
+    filter: hue-rotate(-18deg) saturate(1.40) brightness(1.12);
+    opacity: 0.97;
+    transform: translate3d(-0.5%, 0.5%, 0) scale(1.015);
+  }
+  100% {
+    background-position: 0% 0%, 100% 0%, 30% 100%, 0% 0%;
+    filter: hue-rotate(0deg) saturate(1.15) brightness(1.02);
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes cyberpunkNoise {
+  0% {
+    background-position: 0 0;
+    opacity: 0.10;
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    background-position: 120px -90px;
+    opacity: 0.14;
+    transform: translate3d(-1px, 0.5px, 0);
+  }
+  50% {
+    background-position: -80px 140px;
+    opacity: 0.11;
+    transform: translate3d(1px, -0.5px, 0);
+  }
+  75% {
+    background-position: 160px 60px;
+    opacity: 0.15;
+    transform: translate3d(-0.5px, -1px, 0);
+  }
+  100% {
+    background-position: 0 0;
+    opacity: 0.10;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes cyberpunkScanlines {
+  0% {
+    background-position: 0 0;
+    opacity: 0.22;
+  }
+  50% {
+    background-position: 0 60px;
+    opacity: 0.32;
+  }
+  100% {
+    background-position: 0 120px;
+    opacity: 0.22;
+  }
 }

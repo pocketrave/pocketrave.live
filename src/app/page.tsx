@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import BackgroundVideo from '@/components/BackgroundVideo';
+import TypewriterSegments from '@/components/TypewriterSegments';
 
 export default function Home() {
   return (
@@ -12,41 +12,99 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="space-y-6 font-orbitron">
               <p className="text-lg leading-relaxed" style={{ fontVariationSettings: '"wght" 400' }}>
-                Pocket Rave is a Krakow-based electronic producer who creates music using solely hardware synths, sequencers, and samplers.
+                <TypewriterSegments
+                  typingMs={14}
+                  segments={[
+                    {
+                      type: 'text',
+                      text: 'Pocket Rave is a Krakow-based electronic producer who creates music using solely hardware synths, sequencers, and samplers.',
+                    },
+                  ]}
+                />
               </p>
               <p className="text-lg leading-relaxed" style={{ fontVariationSettings: '"wght" 400' }}>
-                Over the last years, he has performed in Krakow at Prozak 2.0, Sekta Selekta, Swieta Krowa, Pacura Studios, Busz; in Warsaw at Scena Chmielna; and at big festivals—{' '}
-                <Link href="https://belarusout.site/" className=" hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">
-                  Belarus Outside Soundsystem
-                </Link>
-                , {' '}
-                <Link href="https://www.instagram.com/varushniak" className=" hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">
-                  Varushniak
-                </Link>
-                , {' '}
-                <Link href="https://www.instagram.com/vvvatra" className=" hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">
-                  AUKA
-                </Link>
-                , and {' '}
-                <Link href="https://www.ltcn.pl" className=" hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">
-                  Letucień
-                </Link>
-                .
+                <TypewriterSegments
+                  startDelayMs={250}
+                  typingMs={10}
+                  segments={[
+                    {
+                      type: 'text',
+                      text: 'Over the last years, he has performed in Krakow at Prozak 2.0, Sekta Selekta, Swieta Krowa, Pacura Studios, Busz; in Warsaw at Scena Chmielna; and at big festivals— ',
+                    },
+                    {
+                      type: 'link',
+                      href: 'https://belarusout.site/',
+                      text: 'Belarus Outside Soundsystem',
+                      className: 'hover:text-red-600 underline',
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    },
+                    { type: 'text', text: ', ' },
+                    {
+                      type: 'link',
+                      href: 'https://www.instagram.com/varushniak',
+                      text: 'Varushniak',
+                      className: 'hover:text-red-600 underline',
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    },
+                    { type: 'text', text: ', ' },
+                    {
+                      type: 'link',
+                      href: 'https://www.instagram.com/vvvatra',
+                      text: 'AUKA',
+                      className: 'hover:text-red-600 underline',
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    },
+                    { type: 'text', text: ', and ' },
+                    {
+                      type: 'link',
+                      href: 'https://www.ltcn.pl',
+                      text: 'Letucień',
+                      className: 'hover:text-red-600 underline',
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    },
+                    { type: 'text', text: '.' },
+                  ]}
+                />
               </p>
               <p className="text-lg leading-relaxed" style={{ fontVariationSettings: '"wght" 400' }}>
-                You can also spot him speaking on a {' '}
-                <Link href="https://radioplato.by/shows/editorial-podcast/" className=" hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">
-                  Radio Plato editorial
-                </Link>
-                , a {' '}
-                <Link href="https://www.youtube.com/@streamartstudio" className=" hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">
-                  UkrainaTV
-                </Link>
-                {' '} live, and {' '}
-                <Link href="https://www.instagram.com/duszno_podcast" className=" hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">
-                  Duszno podcast
-                </Link>
-                .
+                <TypewriterSegments
+                  startDelayMs={450}
+                  typingMs={10}
+                  segments={[
+                    { type: 'text', text: 'You can also spot him speaking on a ' },
+                    {
+                      type: 'link',
+                      href: 'https://radioplato.by/shows/editorial-podcast/',
+                      text: 'Radio Plato editorial',
+                      className: 'hover:text-red-600 underline',
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    },
+                    { type: 'text', text: ', a ' },
+                    {
+                      type: 'link',
+                      href: 'https://www.youtube.com/@streamartstudio',
+                      text: 'UkrainaTV',
+                      className: 'hover:text-red-600 underline',
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    },
+                    { type: 'text', text: ' live, and ' },
+                    {
+                      type: 'link',
+                      href: 'https://www.instagram.com/duszno_podcast',
+                      text: 'Duszno podcast',
+                      className: 'hover:text-red-600 underline',
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    },
+                    { type: 'text', text: '.' },
+                  ]}
+                />
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] items-start gap-8 font-orbitron pt-4">
