@@ -7,7 +7,7 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-950 flex items-center h-20 font-orbitron">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-950/5 backdrop-blur-xs border-b border-white/5 flex items-center h-20 font-orbitron">
       <div className="max-w-7xl mx-auto px-16 w-full flex items-center justify-between">
         <Link 
           href="/" 
