@@ -127,6 +127,11 @@ body {
   z-index: 1;
 }
 
+/* Carousel must stay absolute to fill the capsule (overrides > * rule) */
+.cyberpunk-capsule > .carousel-fill {
+  position: absolute !important;
+}
+
 /* Selection frame with only corner cuts (no notches) */
 .cyberpunk-selection-frame {
   --border-cut: clamp(12px, 1.1vw, 18px);

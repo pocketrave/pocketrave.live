@@ -33,6 +33,13 @@ export default function Navigation() {
           >
             Live Acts
           </Link>
+          <Link 
+            href="/press-kit" 
+            className={`text-sm md:text-2xl font-bold tracking-tight whitespace-nowrap ${pathname === '/press-kit' ? 'text-red-600' : 'text-white hover:text-red-600 transition-colors'}`}
+            style={{ fontVariationSettings: '"wght" 700' }}
+          >
+            Press Kit
+          </Link>
         </div>
       </div>
     </nav>

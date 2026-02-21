@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 
 /**
  * Component that adds an SVG border overlay to cyberpunk capsule shapes
@@ -10,23 +10,31 @@ export default function CyberpunkBorder({
   borderWidth = 1,
   borderColor = 'rgba(255, 255, 255, 0.1)',
   hoverColor,
+  glowColor = 'rgba(0, 217, 255, 0.4)',
+  glowBlur = 8,
 }: {
   borderWidth?: number;
   borderColor?: string;
   hoverColor?: string;
+  glowColor?: string;
+  glowBlur?: number;
 }) {
   const svgRef = useRef<SVGSVGElement>(null);
   const polygonRef = useRef<SVGPolygonElement>(null);
+  const glowRef = useRef<SVGPolygonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const id = useId();
+  const filterId = `glow-${id.replace(/:/g, '')}`;
 
   useEffect(() => {
-    if (!containerRef.current || !svgRef.current || !polygonRef.current) return;
+    if (!containerRef.current || !svgRef.current || !polygonRef.current || !glowRef.current) return;
 
     const updateSVG = () => {
       const container = containerRef.current;
       const svg = svgRef.current;
       const polygon = polygonRef.current;
-      if (!container || !svg || !polygon) return;
+      const glow = glowRef.current;
+      if (!container || !svg || !polygon || !glow) return;
 
       // Get the sibling element with cyberpunk-capsule class to read CSS variables
       // The border component is a sibling, so we need to find the capsule element
@@ -106,6 +114,12 @@ export default function CyberpunkBorder({
       polygon.setAttribute('stroke', borderColor);
       polygon.setAttribute('stroke-width', borderWidth.toString());
       polygon.setAttribute('fill', 'none');
+
+      glow.setAttribute('points', pointsString);
+      glow.setAttribute('stroke', glowColor);
+      glow.setAttribute('stroke-width', (borderWidth * 2).toString());
+      glow.setAttribute('fill', 'none');
+      glow.setAttribute('filter', `url(#${filterId})`);
     };
 
     // Initial update
@@ -122,7 +136,7 @@ export default function CyberpunkBorder({
       clearTimeout(timeoutId);
       observer.disconnect();
     };
-  }, [borderWidth, borderColor]);
+  }, [borderWidth, borderColor, glowColor, glowBlur]);
 
   return (
     <div ref={containerRef} className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
@@ -132,6 +146,16 @@ export default function CyberpunkBorder({
         xmlns="http://www.w3.org/2000/svg"
         style={{ overflow: 'visible' }}
       >
+        <defs>
+          <filter id={filterId} x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation={glowBlur} result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <polygon ref={glowRef} />
         <polygon ref={polygonRef} />
       </svg>
     </div>

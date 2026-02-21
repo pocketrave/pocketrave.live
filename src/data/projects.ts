@@ -57,6 +57,8 @@ export type Project = {
   tags: string[]; // extra tags (tools, themes, etc.)
   color: string; // hex color used for mixing / highlighting
   media?: ProjectMediaItem[];
+  /** Image filenames in /img/projects/{id}/ folder (e.g. ['1.jpg', '2.jpg']) */
+  images?: string[];
 };
 
 // NOTE: This is a starter dataset. We’ll expand as you share more projects.
@@ -84,6 +86,7 @@ export const projects: Project[] = [
     ],
     color: '#ff2bd6',
     media: [],
+    images: ['2.jpg'],
   },
   {
     id: 'electronic-live-sessions',
@@ -98,6 +101,7 @@ export const projects: Project[] = [
     tags: ['live act', 'organization', 'hardware electronic artists', 'live techno acts'],
     color: '#00e5ff',
     media: [],
+    images: ['els.jpg', 'DSCF5766.JPG'],
   },
   {
     id: 'pocket-visuals',
@@ -112,6 +116,7 @@ export const projects: Project[] = [
     tags: ['VJ', 'visual programming', 'python', 'pygame', 'eyesy'],
     color: '#7c3aed',
     media: [],
+    images: ['eyesy-1.mp4', 'eyesy-2.mp4'],
   },
   {
     id: 'dzichkamusic',
@@ -126,6 +131,7 @@ export const projects: Project[] = [
     tags: ['musical improvisations', 'sound design', 'interactive installation', 'playtronica'],
     color: '#ff6a00',
     media: [],
+    images: ['IMG_7664.JPG', 'IMG_7666.JPG', 'photo_2025-01-10_13-03-21.jpg'],
   },
   {
     id: 'live-electronic-jams',
@@ -139,6 +145,7 @@ export const projects: Project[] = [
     tags: ['electronic musical improvisations', 'sound design', 'jam sessions', 'curation'],
     color: '#00ff85',
     media: [],
+    images: ['chmielna-2.jpg'],
   },
 ];
 
