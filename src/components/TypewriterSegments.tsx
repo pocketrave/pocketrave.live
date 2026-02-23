@@ -47,7 +47,7 @@ export default function TypewriterSegments({
   useEffect(() => {
     const mq = window.matchMedia?.('(prefers-reduced-motion: reduce)');
     const v = Boolean(mq?.matches);
-    setReducedMotion(v);
+    queueMicrotask(() => setReducedMotion(v));
     if (!mq) return;
     const handler = () => setReducedMotion(Boolean(mq.matches));
     mq.addEventListener?.('change', handler);
@@ -56,16 +56,16 @@ export default function TypewriterSegments({
 
   useEffect(() => {
     if (reducedMotion) {
-      setN(fullLen);
+      queueMicrotask(() => setN(fullLen));
       return;
     }
 
     if (fullLen === 0) {
-      setN(0);
+      queueMicrotask(() => setN(0));
       return;
     }
 
-    setN(0);
+    queueMicrotask(() => setN(0));
 
     let intervalId: number | undefined;
     const startTimer = window.setTimeout(() => {

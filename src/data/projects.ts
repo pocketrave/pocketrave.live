@@ -45,10 +45,14 @@ export type ProjectMediaItem =
   | { kind: 'iframe'; src: string; title?: string; height?: number }
   | { kind: 'link'; href: string; label: string };
 
+export type ProjectBlurbLink = { text: string; href: string };
+
 export type Project = {
   id: string;
   title: string;
   blurb: string;
+  /** In-text links: replaces occurrences of `text` in blurb with a link to `href` */
+  blurbLinks?: ProjectBlurbLink[];
   years: number[]; // used as chips (e.g. [2022, 2023, 2024])
   location?: string;
   medium: ProjectMedium[];
@@ -67,8 +71,12 @@ export const projects: Project[] = [
     id: 'ltcn-art-picnic',
     title: 'Art picnic LTCŃ',
     blurb:
-      'Conceptualized, budgeted, and curated the electronic music scene of the festival: invited DJs, musicians, multidisciplinary artists, and game designers to join the line-up, directed an artistic VR space, and decorated the real-life stage.',
-    years: [2021, 2022, 2023, 2024, 2025],
+      'Shaped the festival\'s electronic music vision from concept to execution—budgeting, curation, and full production of the Geodome\'s scenic construction and content design. ' +
+      'Curated the line-up of DJs, musicians, multidisciplinary artists, and game designers; directed an immersive VR space and the real-life stage design. ' +
+      'In 2024, launched a dedicated Letucień scene at the Warsaw fest and a VR experience where visitors explored the festival space in-headset and experienced live artists and DJ performances streamed inside the virtual environment. ' +
+      'Oversaw every layer of the electronic scene: from the initial concept and spatial design to the implementation of scenic constructions, the engineering of the Geodome, and the production of all visual and sonic content. ' +
+      'The VR space became a parallel dimension of the festival—a place where audiences could navigate the grounds in real time and tune into live streams of performances, blurring the line between physical presence and virtual participation.',
+    years: [2021, 2022, 2023, 2024, 2025, 2026],
     location: 'Kraków',
     medium: ['festival', 'music', 'installation', 'exhibition', 'vr'],
     role: ['co-organizer', 'artist', 'performer', 'coordinator'],
@@ -87,6 +95,10 @@ export const projects: Project[] = [
     color: '#ff2bd6',
     media: [],
     images: ['2.jpg'],
+    blurbLinks: [
+      { text: 'immersive VR space', href: 'https://www.spatial.io/s/Letucien-66912f47f89197d7d595bfbd' },
+      { text: 'the festival\'s', href: 'https://ltcn.pl' },
+    ],
   },
   {
     id: 'electronic-live-sessions',
@@ -102,6 +114,9 @@ export const projects: Project[] = [
     color: '#00e5ff',
     media: [],
     images: ['els.jpg', 'DSCF5766.JPG'],
+    blurbLinks: [
+      { text: 'Electronic Live Sessions', href: 'https://www.instagram.com/electronic.live.sessions' },
+    ],
   },
   {
     id: 'pocket-visuals',

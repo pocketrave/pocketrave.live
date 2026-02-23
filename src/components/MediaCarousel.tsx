@@ -19,8 +19,8 @@ export default function MediaCarousel({ project }: { project: Project | undefine
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
-    setIndex(0);
     videoRefs.current = [];
+    queueMicrotask(() => setIndex(0));
   }, [project?.id]);
 
   useEffect(() => {

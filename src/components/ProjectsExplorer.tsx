@@ -1,7 +1,39 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { Project } from '@/data/projects';
+import type { Project, ProjectBlurbLink } from '@/data/projects';
+
+function renderBlurbWithLinks(blurb: string, links?: ProjectBlurbLink[]): React.ReactNode {
+  if (!links?.length) return blurb;
+  // Find the earliest occurrence of any link text (so links work regardless of order)
+  let earliestIdx = blurb.length;
+  let earliestLink: ProjectBlurbLink | null = null;
+  for (const link of links) {
+    const idx = blurb.indexOf(link.text);
+    if (idx !== -1 && idx < earliestIdx) {
+      earliestIdx = idx;
+      earliestLink = link;
+    }
+  }
+  if (!earliestLink) return blurb;
+  const { text, href } = earliestLink;
+  const linkEl = (
+    <a
+      key={`${href}-${text}`}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-cyan-400 underline decoration-cyan-400/50 underline-offset-2 hover:text-cyan-300 hover:decoration-cyan-400"
+    >
+      {text}
+    </a>
+  );
+  return [
+    blurb.slice(0, earliestIdx),
+    linkEl,
+    renderBlurbWithLinks(blurb.slice(earliestIdx + text.length), links),
+  ];
+}
 import CyberpunkBorder from '@/components/CyberpunkBorder';
 import MediaCarousel from '@/components/MediaCarousel';
 
@@ -11,15 +43,10 @@ export default function ProjectsExplorer({ projects }: { projects: Project[] }) 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-  // Fake "infinite" list by repeating projects
-  const displayItems = useMemo(() => {
-    const repeats = 20;
-    const items: Array<{ instanceId: string; project: Project; instanceIdx: number }> = [];
-    for (let i = 0; i < repeats; i++) {
-      for (const p of projects) items.push({ instanceId: `${p.id}__${i}`, project: p, instanceIdx: i });
-    }
-    return items;
-  }, [projects]);
+  const displayItems = useMemo(
+    () => projects.map((project) => ({ instanceId: project.id, project })),
+    [projects]
+  );
 
   // Maintain focus zone selection (middle of scroll container)
   const updateFocus = useCallback(() => {
@@ -45,25 +72,18 @@ export default function ProjectsExplorer({ projects }: { projects: Project[] }) 
       updateFocus();
     };
     scroller.addEventListener('scroll', onScroll, { passive: true });
-    updateFocus();
+    queueMicrotask(updateFocus);
     return () => scroller.removeEventListener('scroll', onScroll);
   }, [updateFocus]);
 
 
   return (
     <div className="h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] text-white relative bg-neutral-950 overflow-hidden">
-
       <div className="h-full mx-auto max-w-7xl px-4 md:px-16 py-2 flex flex-col">
-        <div className="font-orbitron">
-          <h1 className="text-2xl md:text-3xl tracking-tight font-bold text-white">
-            Projects
-          </h1>
-        </div>
-
         {/* Split view */}
         <div className="mt-2 flex-1 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 min-h-0">
           {/* Capsules (left) */}
-          <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden">
+          <div className="relative border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden">
             <div
               ref={scrollRef}
               className="hide-scrollbar relative h-full overflow-y-auto overscroll-contain snap-y snap-mandatory"
@@ -99,7 +119,7 @@ export default function ProjectsExplorer({ projects }: { projects: Project[] }) 
                             } as React.CSSProperties}
                           >
                           <div className="flex h-full min-h-0 flex-col">
-                        <div className="flex shrink-0 items-start justify-between gap-3">
+                        <div className="flex shrink-0 items-start gap-3">
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
                               <span
@@ -116,17 +136,23 @@ export default function ProjectsExplorer({ projects }: { projects: Project[] }) 
                               </div>
                             )}
                           </div>
-                          <button
-                            onClick={() => setActiveProjectId(project.id)}
-                            className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 hover:bg-white/10"
-                          >
-                            Focus
-                          </button>
                         </div>
 
-                        <p className="mt-3 min-h-0 flex-1 overflow-y-auto text-sm md:text-base leading-relaxed text-white/75">
-                          {project.blurb}
+                        <p className="cyberpunk-scrollbar mt-3 min-h-0 flex-1 overflow-y-auto text-sm md:text-base leading-relaxed text-white/75">
+                          {renderBlurbWithLinks(project.blurb, project.blurbLinks)}
                         </p>
+
+                        <div className="mt-3 mb-2 flex shrink-0 flex-wrap gap-1.5">
+                          {project.role.map((r) => (
+                            <button
+                              key={r}
+                              onClick={() => setActiveProjectId(project.id)}
+                              className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs text-white/70 hover:bg-white/10"
+                            >
+                              {r.replaceAll('-', ' ').replaceAll(/\b\w/g, (c) => c.toUpperCase())}
+                            </button>
+                          ))}
+                        </div>
                         </div>
                           </div>
                           <CyberpunkBorder

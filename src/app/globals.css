@@ -38,6 +38,27 @@ body {
   font-family: var(--font-orbitron), sans-serif;
 }
 
+/* Thin cyberpunk cyan neon scrollbar (for press kit list etc.) */
+.cyberpunk-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 217, 255, 0.6) transparent;
+}
+.cyberpunk-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.cyberpunk-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cyberpunk-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 217, 255, 0.5);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(0, 217, 255, 0.4);
+}
+.cyberpunk-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 217, 255, 0.75);
+  box-shadow: 0 0 8px rgba(0, 217, 255, 0.6);
+}
+
 /* Hide scrollbars but keep scrolling (cross-browser) */
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE/Edge Legacy */

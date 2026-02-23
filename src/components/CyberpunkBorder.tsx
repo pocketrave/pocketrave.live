@@ -111,14 +111,14 @@ export default function CyberpunkBorder({
       svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
       
       polygon.setAttribute('points', pointsString);
-      polygon.setAttribute('stroke', borderColor);
-      polygon.setAttribute('stroke-width', borderWidth.toString());
-      polygon.setAttribute('fill', 'none');
+      polygon.style.stroke = borderColor;
+      polygon.style.strokeWidth = borderWidth.toString();
+      polygon.style.fill = 'none';
 
       glow.setAttribute('points', pointsString);
-      glow.setAttribute('stroke', glowColor);
-      glow.setAttribute('stroke-width', (borderWidth * 2).toString());
-      glow.setAttribute('fill', 'none');
+      glow.style.stroke = glowColor;
+      glow.style.strokeWidth = (borderWidth * 2).toString();
+      glow.style.fill = 'none';
       glow.setAttribute('filter', `url(#${filterId})`);
     };
 
@@ -155,8 +155,8 @@ export default function CyberpunkBorder({
             </feMerge>
           </filter>
         </defs>
-        <polygon ref={glowRef} />
-        <polygon ref={polygonRef} />
+        <polygon ref={glowRef} style={{ transition: 'stroke 0.5s ease, stroke-width 0.5s ease, opacity 0.5s ease' }} />
+        <polygon ref={polygonRef} style={{ transition: 'stroke 0.5s ease, stroke-width 0.5s ease, opacity 0.5s ease' }} />
       </svg>
     </div>
   );

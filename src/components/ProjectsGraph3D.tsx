@@ -32,6 +32,7 @@ export default function ProjectsGraph3D({
   onNodeClick,
 }: ProjectsGraph3DProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- 3d-force-graph has complex instance types
   const fgRef = useRef<any>(null);
   const driftBasePosRef = useRef<{ x: number; y: number; z: number } | null>(null);
   const driftLookAtRef = useRef<{ x: number; y: number; z: number }>({ x: 0, y: 0, z: 0 });
@@ -106,19 +107,20 @@ export default function ProjectsGraph3D({
         .showNavInfo(false)
         // Interactive by default; we pause drift/focus while the user is interacting.
         .enableNodeDrag(true)
-        .graphData({ nodes: graphData.nodes as any, links: graphData.links as any })
-        .nodeLabel((n: any) => n.kind === 'tag' ? n.label : n.label)
-        .nodeColor((n: any) => {
+        .graphData({ nodes: graphData.nodes, links: graphData.links })
+        .nodeLabel((n) => (n as GraphNode).label)
+        .nodeColor((n) => {
+          const node = n as GraphNode;
           // Default base color
-          let color = n.color as string;
+          let color = node.color as string;
 
           // If tag filters are active, dim nodes not in active set (tags) and dim projects that don't match.
           if (activeTagSet && activeTagSet.size > 0) {
-            if (n.kind === 'tag') {
-              const isActive = activeTagSet.has(n.label);
+            if (node.kind === 'tag') {
+              const isActive = activeTagSet.has(node.label);
               if (!isActive) color = 'rgba(120,120,140,0.25)';
-            } else if (n.kind === 'project') {
-              const p = projects.find((p) => `p:${p.id}` === n.id);
+            } else if (node.kind === 'project') {
+              const p = projects.find((p) => `p:${p.id}` === node.id);
               if (p) {
                 const tags = new Set<string>([
                   ...p.medium.map((m) => `medium:${m}`),
@@ -145,17 +147,17 @@ export default function ProjectsGraph3D({
                 ...activeProject.tags.map((t) => `tag:${t}`),
               ]);
 
-              if (n.kind === 'project') {
-                if (n.id === `p:${activeProjectId}`) return activeProject.color;
+              if (node.kind === 'project') {
+                if (node.id === `p:${activeProjectId}`) return activeProject.color;
                 return 'rgba(120,120,140,0.12)';
               }
 
-              if (n.kind === 'tag') {
-                if (activeTags.has(n.label)) {
+              if (node.kind === 'tag') {
+                if (activeTags.has(node.label)) {
                   // If tag belongs to multiple projects, keep mixed base (but still dim the rest).
                   // If unique to the active project, tint to the project color.
-                  const degree = (n.degree as number | undefined) ?? 1;
-                  return degree <= 1 ? activeProject.color : (n.color as string);
+                  const degree = (node.degree as number | undefined) ?? 1;
+                  return degree <= 1 ? activeProject.color : (node.color as string);
                 }
                 return 'rgba(120,120,140,0.18)';
               }
@@ -165,25 +167,30 @@ export default function ProjectsGraph3D({
           return color;
         })
         .linkColor(() => 'rgba(180,180,220,0.10)')
-        .linkWidth((l: any) => (activeProjectId ? (String(l.source.id).startsWith(`p:${activeProjectId}`) ? 1.6 : 0.4) : 0.7))
+        .linkWidth((l) => {
+          const src = l.source;
+          const id = typeof src === 'object' && src && 'id' in src ? String((src as { id?: string }).id ?? '') : String(src ?? '');
+          return activeProjectId ? (id.startsWith(`p:${activeProjectId}`) ? 1.6 : 0.4) : 0.7;
+        })
         .linkOpacity(0.6)
         .nodeRelSize(3.8)
         .d3VelocityDecay(0.35)
         .d3AlphaDecay(0.02);
 
       try {
-        const controls = fg.controls?.();
+        const controls = fg.controls?.() as { enableZoom?: boolean; enablePan?: boolean; enableRotate?: boolean } | undefined;
         if (controls) {
-          (controls as any).enableZoom = true;
-          (controls as any).enablePan = true;
-          (controls as any).enableRotate = true;
+          controls.enableZoom = true;
+          controls.enablePan = true;
+          controls.enableRotate = true;
         }
       } catch {
         // ignore if controls API changes
       }
 
-      fg.onNodeClick((n: any) => {
-        if (onNodeClick) onNodeClick({ kind: n.kind, id: n.id, label: n.label });
+      fg.onNodeClick((n) => {
+        const node = n as GraphNode;
+        if (onNodeClick) onNodeClick({ kind: node.kind, id: node.id, label: node.label });
       });
 
       // Mark user interaction so our auto camera drift/focus doesn't fight the mouse.
@@ -239,7 +246,7 @@ export default function ProjectsGraph3D({
       destroyed = true;
       if (cleanup) cleanup();
       try {
-        fgRef.current && fgRef.current._destructor && fgRef.current._destructor();
+        fgRef.current?._destructor?.();
       } catch {
         // ignore
       }
@@ -253,7 +260,7 @@ export default function ProjectsGraph3D({
     const fg = fgRef.current;
     if (!fg || !activeProjectId) return;
     if (userInteractingRef.current && Date.now() < userInteractingUntilRef.current) return;
-    const node = fg.graphData().nodes.find((n: any) => n.id === `p:${activeProjectId}`);
+    const node = fg.graphData().nodes.find((n: GraphNode) => n.id === `p:${activeProjectId}`);
     if (!node) return;
 
     const distance = 180;

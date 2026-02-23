@@ -8,10 +8,15 @@ const eslintConfig = defineConfig([
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
+    "_next/**",
     ".next/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // readymag folder and build outputs
+    "readymag/**",
+    "**/readymag/**",
+    "pocketrave-site/**",
   ]),
 ]);
 

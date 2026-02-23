@@ -35,15 +35,19 @@ export default function TypewriterStatus({
   useEffect(() => {
     // keep phrase in sync if texts change
     if (!normalized.length) {
-      setPhrase('');
-      setTyped('');
-      setPhase('typing');
+      queueMicrotask(() => {
+        setPhrase('');
+        setTyped('');
+        setPhase('typing');
+      });
       return;
     }
     if (!normalized.includes(phrase)) {
-      setPhrase(normalized[0] ?? '');
-      setTyped('');
-      setPhase('typing');
+      queueMicrotask(() => {
+        setPhrase(normalized[0] ?? '');
+        setTyped('');
+        setPhase('typing');
+      });
     }
   }, [normalized, phrase]);
 

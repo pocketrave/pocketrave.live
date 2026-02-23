@@ -111,7 +111,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <Link 
                     href="https://www.instagram.com/pocket.rave/" 
-                    className="block text-lg hover:text-red-600 transition-colors"
+                    className="block text-lg underline hover:text-red-600 transition-colors"
                     style={{ fontVariationSettings: '"wght" 400' }}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -120,7 +120,7 @@ export default function Home() {
                   </Link>
                   <Link 
                     href="https://soundcloud.com/pocketrave" 
-                    className="block text-lg hover:text-red-600 transition-colors"
+                    className="block text-lg underline hover:text-red-600 transition-colors"
                     style={{ fontVariationSettings: '"wght" 400' }}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -129,7 +129,7 @@ export default function Home() {
                   </Link>
                   <Link 
                     href="https://ra.co/dj/pocketrave" 
-                    className="block text-lg hover:text-red-600 transition-colors"
+                    className="block text-lg underline hover:text-red-600 transition-colors"
                     style={{ fontVariationSettings: '"wght" 400' }}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -138,7 +138,7 @@ export default function Home() {
                   </Link>
                   <Link 
                     href="mailto:pocketrave@proton.me" 
-                    className="text-lg hover:text-red-600 transition-colors"
+                    className="text-lg underline hover:text-red-600 transition-colors"
                     style={{ fontVariationSettings: '"wght" 400' }}
                   >
                     pocketrave@proton.me
