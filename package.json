@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "3d-force-graph": "^1.79.0",
+    "fflate": "^0.8.2",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"

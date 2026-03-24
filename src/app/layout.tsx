@@ -18,7 +18,7 @@ const orbitron = localFont({
 
 export const metadata: Metadata = {
   title: "Pocket Rave",
-  description: "Krakow-based electronic producer",
+  description: "Raw, textured electronic music performed on a fully hardware setup. Krakow-based.",
 };
 
 export default function RootLayout({

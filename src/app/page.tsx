@@ -17,7 +17,7 @@ export default function Home() {
                   segments={[
                     {
                       type: 'text',
-                      text: 'Pocket Rave is a Krakow-based electronic producer who creates music using solely hardware synths, sequencers, and samplers.',
+                      text: 'Pocket Rave is a Krakow-based act delivering raw, textured electronic music on a fully hardware setup — synthesizers, sequencers, drum machines, and samplers. Each set is shaped in real time, somewhere between a live jam and a studio session, moving through hypnotic techno, electro, acid, breakbeat, and trance — staying emotional, physical, and a bit unpredictable.',
                     },
                   ]}
                 />
@@ -29,7 +29,7 @@ export default function Home() {
                   segments={[
                     {
                       type: 'text',
-                      text: 'Over the last years, he has performed in Krakow at Prozak 2.0, Sekta Selekta, Swieta Krowa, Pacura Studios, Busz; in Warsaw at Scena Chmielna; and at big festivals— ',
+                      text: 'Over the last years, he has performed at B-Side, Sekta Selekta, Kiosk, Swieta Krowa, Pacura Studios, Prozak 2.0, Scena Chmielna; and at big festivals— ',
                     },
                     {
                       type: 'link',
@@ -48,20 +48,11 @@ export default function Home() {
                       target: '_blank',
                       rel: 'noopener noreferrer',
                     },
-                    { type: 'text', text: ', ' },
-                    {
-                      type: 'link',
-                      href: 'https://www.instagram.com/vvvatra',
-                      text: 'AUKA',
-                      className: 'hover:text-red-600 underline',
-                      target: '_blank',
-                      rel: 'noopener noreferrer',
-                    },
                     { type: 'text', text: ', and ' },
                     {
                       type: 'link',
                       href: 'https://www.ltcn.pl',
-                      text: 'Letucień',
+                      text: 'LTCN',
                       className: 'hover:text-red-600 underline',
                       target: '_blank',
                       rel: 'noopener noreferrer',
