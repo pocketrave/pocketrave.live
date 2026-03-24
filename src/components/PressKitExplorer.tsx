@@ -391,25 +391,49 @@ export default function PressKitExplorer({ files }: Readonly<{ files: PressKitFi
                 {displayIndex >= 0 ? `${displayIndex + 1}/${files.length}` : ''}
               </span>
             </div>
-            <button
-              type="button"
-              onClick={closePreview}
-              className={[
-                'font-orbitron text-xs tracking-widest uppercase',
-                'text-cyan-400 hover:text-cyan-300',
-                'border border-cyan-400/40 hover:border-cyan-400/70',
-                'px-4 py-1.5',
-                'hover:bg-cyan-400/10 transition-all duration-200',
-                'hover:shadow-[0_0_12px_rgba(0,217,255,0.3)]',
-                'shrink-0 cursor-pointer',
-              ].join(' ')}
-              style={{
-                clipPath:
-                  'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
-              }}
-            >
-              CLOSE
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => displayFile && handleDownload(displayFile)}
+                className={[
+                  'font-orbitron text-xs tracking-widest uppercase',
+                  'text-cyan-400 hover:text-cyan-300',
+                  'border border-cyan-400/40 hover:border-cyan-400/70',
+                  'px-3 py-1.5',
+                  'hover:bg-cyan-400/10 transition-all duration-200',
+                  'hover:shadow-[0_0_12px_rgba(0,217,255,0.3)]',
+                  'cursor-pointer',
+                ].join(' ')}
+                style={{
+                  clipPath:
+                    'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
+                }}
+                title="Download this file"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={closePreview}
+                className={[
+                  'font-orbitron text-xs tracking-widest uppercase',
+                  'text-cyan-400 hover:text-cyan-300',
+                  'border border-cyan-400/40 hover:border-cyan-400/70',
+                  'px-4 py-1.5',
+                  'hover:bg-cyan-400/10 transition-all duration-200',
+                  'hover:shadow-[0_0_12px_rgba(0,217,255,0.3)]',
+                  'cursor-pointer',
+                ].join(' ')}
+                style={{
+                  clipPath:
+                    'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
+                }}
+              >
+                CLOSE
+              </button>
+            </div>
           </div>
 
           {/* Panel content with nav arrows */}

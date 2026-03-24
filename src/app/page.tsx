@@ -98,8 +98,8 @@ export default function Home() {
                 />
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] items-start gap-8 font-orbitron pt-4">
-                <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] items-start gap-0 font-orbitron pt-4">
+                <div className="space-y-2">
                   <Link 
                     href="https://www.instagram.com/pocket.rave/" 
                     className="block text-lg underline hover:text-red-600 transition-colors"
@@ -128,11 +128,11 @@ export default function Home() {
                     Resident Advisor
                   </Link>
                   <Link 
-                    href="mailto:pocketrave@proton.me" 
+                    href="mailto:pocketrave.live@proton.me" 
                     className="text-lg underline hover:text-red-600 transition-colors"
                     style={{ fontVariationSettings: '"wght" 400' }}
                   >
-                    pocketrave@proton.me
+                    pocketrave.live@proton.me
                   </Link>
                 </div>
                 
