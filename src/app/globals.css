@@ -312,3 +312,118 @@ body {
     opacity: 0.22;
   }
 }
+
+.inspired-sphere-shell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(120% 120% at 18% 12%, rgba(0, 217, 255, 0.2), transparent 56%),
+    radial-gradient(100% 100% at 84% 14%, rgba(255, 43, 214, 0.16), transparent 60%),
+    linear-gradient(165deg, rgba(10, 15, 28, 0.9), rgba(2, 6, 15, 0.82));
+  box-shadow:
+    inset 0 0 20px rgba(0, 217, 255, 0.12),
+    0 0 40px rgba(0, 217, 255, 0.17),
+    0 0 64px rgba(255, 43, 214, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+.inspired-sphere-shell::before {
+  content: "";
+  position: absolute;
+  inset: -32% -10% auto;
+  height: 72%;
+  background: radial-gradient(circle at 50% 0%, rgba(0, 217, 255, 0.26), transparent 70%);
+  pointer-events: none;
+}
+
+.inspired-sphere-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.04) 0px,
+    rgba(255, 255, 255, 0.01) 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.inspired-sphere-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.1rem 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(188, 245, 255, 0.95);
+  text-shadow: 0 0 14px rgba(0, 217, 255, 0.5);
+}
+
+.inspired-sphere-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 300px;
+  margin: 0.2rem 0.75rem 1rem;
+  border: 1px solid rgba(120, 224, 255, 0.22);
+  border-radius: 0.9rem;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(0, 217, 255, 0.12), transparent 52%),
+    radial-gradient(circle at 65% 80%, rgba(142, 84, 233, 0.18), transparent 54%),
+    rgba(4, 11, 24, 0.72);
+  overflow: hidden;
+}
+
+.inspired-sphere-core {
+  position: absolute;
+  width: 36%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.5), rgba(0, 217, 255, 0.03) 70%, transparent 100%);
+  filter: blur(2px);
+  opacity: 0.45;
+}
+
+.inspired-sphere-orbit {
+  position: absolute;
+  width: 76%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  border: 1px dashed rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 24px rgba(0, 217, 255, 0.2);
+  opacity: 0.7;
+}
+
+.inspired-sphere-tag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: clamp(0.64rem, 1.5vw, 0.85rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: rgba(230, 252, 255, 0.92);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transform-origin: center;
+  will-change: transform, opacity, filter;
+}
+
+@media (max-width: 1279px) {
+  .inspired-sphere-stage {
+    height: 260px;
+    margin-inline: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inspired-sphere-shell::after {
+    animation: none;
+  }
+}
